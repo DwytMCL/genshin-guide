@@ -1,6 +1,3 @@
-Here’s a clean **README.md** you can paste directly into your repo.
-Short, direct, and formatted for GitHub.
-
 ---
 
 # Genshin Impact Character Builder & Team Guide (React)
