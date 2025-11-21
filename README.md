@@ -68,7 +68,7 @@ cd <repo-name>
 npm install
 ```
 
-### 3️⃣ Add your Gemini API key
+### Add your Gemini API key
 
 Create `.env`:
 
@@ -76,7 +76,7 @@ Create `.env`:
 VITE_GEMINI_API_KEY=your_api_key_here
 ```
 
-### 4️Run the dev server
+### Run the dev server
 
 ```bash
 npm run dev
@@ -149,7 +149,7 @@ Each character entry contains:
 
 ---
 
-## 🛡️ License
+## License
 
 MIT License — free to use and modify.
 
