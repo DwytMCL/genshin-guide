@@ -1,153 +1,78 @@
----
+# Teyvat Field Guide
 
-# Genshin Impact Character Builder & Team Guide (React)
+A React application for browsing Genshin Impact character builds and team suggestions, with an experimental Gemini assistant for character-specific questions.
 
-A **React-based Genshin Impact guide app** that provides **character builds, artifact recommendations, team comps, and weapon options**.
-Features an integrated **Gemini AI assistant** that answers questions using your custom system prompts.
-
----
+[Open the demo](https://genshin-guide-henna.vercel.app)
 
 ## Features
 
-### Character Database
+- Search 53 included characters by name and filter by any of the seven elements.
+- Browse weapon and artifact recommendations, main stats, substats, and suggested teams.
+- Switch to a Meta Snapshot view that filters the included data to S and SS tiers.
+- Open a character's Akasha Terminal for build questions and quick prompts about rotations, Energy Recharge, and artifacts.
+- Browse the character guide without configuring the optional assistant.
 
-- Complete data for **Pyro, Hydro, Dendro, Electro**, and more.
-- Each character includes:
+## Built with
 
-  - Weapon recommendations
-  - Artifact sets
-  - Main stats & substats
-  - Team compositions
-  - Tier ranking & role
+React 19, Vite 7, Tailwind CSS 3, and Lucide React icons. Character data and the application components are defined in `src/App.jsx`.
 
-### Gemini AI Integration
+## Run locally
 
-- Uses **Google Gemini 2.5 Flash** via API.
-- Built-in:
-
-  - Error handling
-  - Timeout fallback
-  - Exponential backoff (429 Too Many Requests)
-
-### Modern UI
-
-- Built with **React + Vite**
-- Uses **lucide-react icons**
-- Fast search + filtering
-- Team builder layout (depending on your UI code)
-
----
-
-## Tech Stack
-
-| Technology           | Purpose              |
-| -------------------- | -------------------- |
-| **React**            | Main UI framework    |
-| **Vite**             | Dev server & bundler |
-| **Gemini API**       | AI responses         |
-| **lucide-react**     | Icons                |
-| **Custom JSON Data** | Character database   |
-
----
-
-## Setup & Installation
-
-### Clone the repo
+Install Node.js compatible with Vite 7 and npm, then run:
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
-```
-
-### Install dependencies
-
-```bash
-npm install
-```
-
-### Add your Gemini API key
-
-Create `.env`:
-
-```env
-VITE_GEMINI_API_KEY=your_api_key_here
-```
-
-### Run the dev server
-
-```bash
+git clone https://github.com/DwytMCL/genshin-guide.git
+cd genshin-guide
+npm ci
 npm run dev
 ```
 
----
+Open the local URL printed by Vite.
 
-## Environment Variables
+### Optional Gemini setup
 
-| Variable              | Description                |
-| --------------------- | -------------------------- |
-| `VITE_GEMINI_API_KEY` | Your Google Gemini API key |
+Create `.env.local` in the project root:
 
----
-
-## Gemini API Handling
-
-This project includes:
-
-- Automatic retries
-- Exponential backoff
-- Graceful error messages
-- Safe parsing of AI responses
-
-Code located inside:
-
-```js
-callGemini(userPrompt, systemPrompt);
+```dotenv
+VITE_GEMINI_API_KEY=your_api_key_here
 ```
 
----
+Restart the development server after changing the environment file.
+`src/App.jsx` reads this variable through `import.meta.env.VITE_GEMINI_API_KEY`.
 
-## Project Structure
+The client calls Google's `generateContent` endpoint with the configured model
+`gemini-2.5-flash-preview-09-2025`. Access depends on the model's availability and your API account.
 
-```
-src/
-│ App.jsx
-│ components/
-│ data/
-│ styles/
-.env
-vite.config.js
-package.json
-```
+Vite includes `VITE_` values in the browser bundle. A public deployment should route Gemini requests through a server that keeps the API key private; this repository currently calls Gemini directly from the browser.
 
-_(Adjust based on your actual repo layout)_
+## Commands
 
----
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Generate a production build in `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run the configured ESLint checks |
 
-## 📘 Character Data Format
+## Key files
 
-Each character entry contains:
+| File | Purpose |
+| --- | --- |
+| `src/App.jsx` | Character data, filters, cards, build modal, and assistant |
+| `package.json` | Dependencies and npm scripts |
+| `vite.config.js` | Vite configuration |
+| `tailwind.config.js` | Tailwind configuration |
+| `postcss.config.cjs` | PostCSS configuration |
+| `LICENSE` | MIT license |
 
-```js
-{
-  id: 'arlecchino',
-  name: 'Arlecchino',
-  rarity: 5,
-  element: 'Pyro',
-  role: 'Main DPS',
-  tier: 'SS',
-  weaponType: 'Polearm',
-  bestWeapons: [...],
-  artifacts: [...],
-  mainStats: {...},
-  subStats: [...],
-  teams: [...]
-}
-```
+## Current scope
 
----
+- Character entries and tier labels are manually maintained; they are not a complete roster or live game data.
+- Team suggestions are reference text. The app does not calculate damage or optimize a custom team.
+- The assistant sends the current question and selected character context, without previous chat turns.
+- Failed API calls are retried up to five attempts with increasing delays, then return a fallback message. There is no request timeout.
+- Build advice and AI responses can be outdated or inaccurate and should be checked against current game information.
 
 ## License
 
-MIT License — free to use and modify.
-
----
+[MIT](LICENSE). Genshin Impact is owned by HoYoverse; this is an independent fan project.
